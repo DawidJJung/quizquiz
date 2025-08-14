@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometry Homework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Corrected KaTeX CSS Link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMcAORllhBIgBpO98Pz7gjVBYSNpoJpGTxwLKPkJ3rGTfgZv0" crossorigin="anonymous">
+    <!-- Corrected KaTeX JS Script -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUbKyKLO8" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        .katex-display { margin: 0.5em 0; font-size: 1.1em; text-align: left; }
+        #problem-text, #solution-text { overflow-wrap: break-word; word-wrap: break-word; }
+        .svg-diagram { max-width: 250px; height: auto; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <!-- Header Section -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Geometry Homework</h1>
+            <p class="text-slate-600 mt-2">Triangle Properties: Inequality, Midsegment, and Hinge Theorems</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Problem List -->
+            <div class="md:col-span-1 bg-white p-6 rounded-2xl shadow-lg h-full max-h-[75vh] overflow-y-auto">
+                <h2 class="text-xl font-bold mb-4 border-b pb-2">Problem List</h2>
+                <div id="problem-list" class="space-y-4">
+                    <!-- Problems will be dynamically inserted here -->
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Solver -->
+            <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow-lg">
+                <div id="solver-view">
+                    <!-- Initial placeholder view -->
+                    <div id="placeholder" class="text-center flex flex-col items-center justify-center h-full min-h-[50vh]">
+                        <svg class="w-16 h-16 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        <h3 class="text-xl font-semibold text-slate-500">Select a problem to begin.</h3>
+                        <p class="text-slate-400">The interactive workspace will appear here.</p>
+                    </div>
+
+                    <!-- Active problem view (hidden by default) -->
+                    <div id="problem-solver" class="hidden flex flex-col h-full">
+                        <div>
+                            <h3 class="text-lg font-semibold text-slate-900 mb-2">Problem:</h3>
+                            <p id="problem-text" class="text-slate-700 mb-2"></p>
+                            <div id="problem-diagram" class="my-4 flex justify-center"></div>
+                            <div id="problem-formula" class="bg-slate-50 p-4 rounded-lg text-lg"></div>
+                        </div>
+                        
+                        <div class="mt-6 flex-grow">
+                            <h3 class="text-lg font-semibold text-slate-900 mb-2">Your Answer:</h3>
+                            <textarea id="user-solution" class="w-full h-32 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 transition" placeholder="Write your justification here..."></textarea>
+                        </div>
+
+                        <div class="mt-6">
+                            <button id="show-solution-btn" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">
+                                Show Solution
+                            </button>
+                        </div>
+                        
+                        <div id="solution-area" class="mt-6 hidden">
+                            <h3 class="text-lg font-semibold text-green-700 mb-2">Solution:</h3>
+                            <div class="bg-green-50 text-green-800 p-4 rounded-lg border border-green-200">
+                                <p id="solution-text"></p>
+                                <div id="solution-formula"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA: Problems and Solutions (Structurally changed for solutions) ---
+        const problems = [
+            // Part 1: Triangle Inequality Theorem
+            { id: 1, category: 'Triangle Inequality Theorem', text: 'Determine if a triangle can be formed with the given side lengths. Justify your answer.', formula: `8, 15, 17`, solution: { text: `Yes. According to the Triangle Inequality Theorem, the sum of the lengths of any two sides of a triangle must be greater than the length of the third side. Here, 8 + 15 = 23, which is greater than 17.`, formula: `` } },
+            { id: 2, category: 'Triangle Inequality Theorem', text: 'Determine if a triangle can be formed with the given side lengths. Justify your answer.', formula: `6, 7, 14`, solution: { text: `No. The sum of the two shorter sides, 6 + 7 = 13, is not greater than the longest side, 14. This violates the Triangle Inequality Theorem.`, formula: `` } },
+            { id: 3, category: 'Triangle Inequality Theorem', text: 'Two sides of a triangle have lengths 9 and 14. Find the range of possible lengths for the third side, x.', formula: ``, solution: { text: `Let the third side be x. By the Triangle Inequality Theorem, we have: 14 - 9 < x < 14 + 9. Therefore, the range is:`, formula: `5 < x < 23` } },
+
+            // Part 2: Midsegment Theorem
+            { id: 4, category: 'Midsegment Theorem', text: 'In the diagram, D and E are the midpoints of AB and AC, respectively. If DE = 9, what is the length of BC? Justify your answer.', diagram: `<svg viewBox="0 0 200 150" class="svg-diagram"><polygon points="100,10 10,140 190,140" fill="none" stroke="black" stroke-width="2"/><line x1="55" y1="75" x2="145" y2="75" stroke="blue" stroke-width="2"/><text x="100" y="150" font-size="12">C</text><text x="192" y="145" font-size="12">B</text><text x="0" y="145" font-size="12">A</text><text x="45" y="73" font-size="12">D</text><text x="150" y="73" font-size="12">E</text><text x="95" y="80" font-size="12">9</text></svg>`, formula: ``, solution: { text: `By the Midsegment Theorem, the segment connecting the midpoints of two sides of a triangle is parallel to the third side and is half the length of the third side. Therefore:`, formula: `BC = 2 \\times DE = 2 \\times 9 = 18` } },
+            { id: 5, category: 'Midsegment Theorem', text: 'In the diagram, MN is a midsegment of ΔJKL. Find the value of x.', diagram: `<svg viewBox="0 0 200 150" class="svg-diagram"><polygon points="100,10 10,140 190,140" fill="none" stroke="black" stroke-width="2"/><line x1="55" y1="75" x2="145" y2="75" stroke="blue" stroke-width="2"/><text x="95" y="150" font-size="12">L</text><text x="192" y="145" font-size="12">K</text><text x="0" y="145" font-size="12">J</text><text x="45" y="73" font-size="12">M</text><text x="150" y="73" font-size="12">N</text><text x="85" y="80" font-size="10">2x - 3</text><text x="80" y="135" font-size="10">3x + 2</text></svg>`, formula: ``, solution: { text: `By the Midsegment Theorem, 2 * MN = KL. So, we can set up the equation:`, formula: `2(2x - 3) = 3x + 2 \\\\ 4x - 6 = 3x + 2 \\\\ x = 8` } },
+
+            // Part 3: Hinge Theorem & Converse
+            { id: 6, category: 'Hinge Theorem', text: 'Compare the lengths of BC and EF. Justify your answer using the appropriate theorem.', diagram: `<svg viewBox="0 0 250 120" class="svg-diagram"><polygon points="50,10 10,110 90,110" fill="none" stroke="black" stroke-width="2"/><text x="45" y="120">A</text><text x="0" y="115">B</text><text x="92" y="115">C</text><text x="25" y="60">10</text><text x="70" y="60">12</text><text x="45" y="30">70°</text><polygon points="180,10 140,110 220,110" fill="none" stroke="black" stroke-width="2"/><text x="175" y="120">D</text><text x="130" y="115">E</text><text x="222" y="115">F</text><text x="155" y="60">10</text><text x="200" y="60">12</text><text x="175" y="30">75°</text></svg>`, formula: ``, solution: { text: `By the Hinge Theorem, if two sides of one triangle are congruent to two sides of another, and the included angle of the second is larger, then the third side of the second is longer. Since 75° > 70°, we can conclude:`, formula: `EF > BC` } },
+            { id: 7, category: 'Converse of the Hinge Theorem', text: 'Compare the measures of ∠A and ∠D. Justify your answer.', diagram: `<svg viewBox="0 0 250 120" class="svg-diagram"><polygon points="50,10 10,110 90,110" fill="none" stroke="black" stroke-width="2"/><text x="45" y="30">∠A</text><text x="0" y="115">B</text><text x="92" y="115">C</text><text x="25" y="60">8</text><text x="70" y="60">8</text><text x="45" y="100">10</text><polygon points="180,10 140,110 220,110" fill="none" stroke="black" stroke-width="2"/><text x="175" y="30">∠D</text><text x="130" y="115">E</text><text x="222" y="115">F</text><text x="155" y="60">8</text><text x="200" y="60">8</text><text x="175" y="100">9</text></svg>`, formula: ``, solution: { text: `By the Converse of the Hinge Theorem, if two sides of one triangle are congruent to two sides of another, and the third side of the first is longer, then the included angle of the first is larger. Since 10 > 9, we can conclude:`, formula: `m∠A > m∠D` } },
+            { id: 8, category: 'Hinge Theorem Application', text: 'Find the range of possible values for x.', diagram: `<svg viewBox="0 0 150 150" class="svg-diagram"><polygon points="75,10 10,130 140,130" fill="none" stroke="black" stroke-width="2"/><line x1="75" y1="10" x2="100" y2="130" stroke="black" stroke-width="1.5" stroke-dasharray="4"/><text x="70" y="8">A</text><text x="0" y="135">B</text><text x="142" y="135">C</text><text x="98" y="142">D</text><text x="35" y="70">10</text><text x="115" y="70">10</text><text x="50" y="138">x - 2</text><text x="115" y="138">12</text><text x="50" y="30">50°</text><text x="90" y="30">65°</text></svg>`, formula: ``, solution: { text: `By the Hinge Theorem, since 65° > 50°, we know 12 > x - 2. Also, a side length must be positive, so x - 2 > 0. Combining these gives the range:`, formula: `2 < x < 14` } }
+        ];
+
+        // --- DOM Element References ---
+        const problemListContainer = document.getElementById('problem-list');
+        const placeholderView = document.getElementById('placeholder');
+        const solverView = document.getElementById('problem-solver');
+        const problemTextEl = document.getElementById('problem-text');
+        const problemDiagramEl = document.getElementById('problem-diagram');
+        const problemFormulaEl = document.getElementById('problem-formula');
+        const userSolutionEl = document.getElementById('user-solution');
+        const showSolutionBtn = document.getElementById('show-solution-btn');
+        const solutionAreaEl = document.getElementById('solution-area');
+        const solutionTextEl = document.getElementById('solution-text');
+        const solutionFormulaEl = document.getElementById('solution-formula');
+
+        let currentProblemId = null;
+
+        // --- Functions ---
+        function populateProblemList() {
+            const groupedProblems = problems.reduce((acc, p) => {
+                (acc[p.category] = acc[p.category] || []).push(p);
+                return acc;
+            }, {});
+
+            let html = '';
+            for (const category in groupedProblems) {
+                html += `<h3 class="font-semibold text-slate-700 mt-4 first:mt-0">${category}</h3><div class="space-y-2">`;
+                groupedProblems[category].forEach(p => {
+                    html += `<button data-id="${p.id}" class="problem-item w-full text-left px-3 py-2 text-slate-600 rounded-md hover:bg-indigo-50 hover:text-indigo-700 transition">Problem ${p.id}</button>`;
+                });
+                html += '</div>';
+            }
+            problemListContainer.innerHTML = html;
+        }
+
+        function displayProblem(problemId) {
+            const problem = problems.find(p => p.id === problemId);
+            if (!problem) return;
+            currentProblemId = problemId;
+
+            placeholderView.classList.add('hidden');
+            solverView.classList.remove('hidden');
+            solverView.classList.add('flex');
+            
+            problemTextEl.textContent = problem.text;
+            
+            problemDiagramEl.innerHTML = problem.diagram || '';
+            problemDiagramEl.classList.toggle('hidden', !problem.diagram);
+
+            problemFormulaEl.innerHTML = '';
+            if (problem.formula) {
+                katex.render(problem.formula, problemFormulaEl, { throwOnError: false, displayMode: true });
+            }
+
+            // Render separated solution text and formula
+            solutionTextEl.textContent = problem.solution.text;
+            solutionFormulaEl.innerHTML = '';
+            if (problem.solution.formula) {
+                katex.render(problem.solution.formula, solutionFormulaEl, { throwOnError: false, displayMode: true });
+            }
+
+            userSolutionEl.value = '';
+            solutionAreaEl.classList.add('hidden');
+
+            document.querySelectorAll('.problem-item').forEach(item => {
+                item.classList.toggle('bg-indigo-100', parseInt(item.dataset.id) === problemId);
+                item.classList.toggle('text-indigo-800', parseInt(item.dataset.id) === problemId);
+                item.classList.toggle('font-semibold', parseInt(item.dataset.id) === problemId);
+            });
+        }
+
+        // --- Event Listeners ---
+        problemListContainer.addEventListener('click', (e) => {
+            const target = e.target.closest('.problem-item');
+            if (target) {
+                displayProblem(parseInt(target.dataset.id));
+            }
+        });
+
+        showSolutionBtn.addEventListener('click', () => {
+            if (currentProblemId !== null) {
+                solutionAreaEl.classList.remove('hidden');
+            }
+        });
+
+        // --- Initial Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            populateProblemList();
+        });
+    </script>
+</body>
+</html>
