@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geometry Homework</title>
+    <title>Geometry Homework Submission</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Corrected KaTeX CSS Link -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMcAORllhBIgBpO98Pz7gjVBYSNpoJpGTxwLKPkJ3rGTfgZv0" crossorigin="anonymous">
-    <!-- Corrected KaTeX JS Script -->
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUbKyKLO8" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -19,38 +17,46 @@
         .katex-display { margin: 0.5em 0; font-size: 1.1em; text-align: left; }
         #problem-text, #solution-text { overflow-wrap: break-word; word-wrap: break-word; }
         .svg-diagram { max-width: 250px; height: auto; }
+        #modal-backdrop { transition: opacity 0.2s ease-in-out; }
+        #modal-content { transition: transform 0.2s ease-in-out; }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
 
+    <!-- Custom Alert Modal -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+        <div id="modal-content" class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm transform scale-95">
+            <h3 id="modal-title" class="text-lg font-bold text-slate-800">Notification</h3>
+            <p id="modal-message" class="text-slate-600 mt-2 mb-6">A message will be displayed here.</p>
+            <button id="modal-close-btn" class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">OK</button>
+        </div>
+    </div>
+
     <div class="container mx-auto p-4 md:p-8">
-        <!-- Header Section -->
         <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Geometry Homework</h1>
-            <p class="text-slate-600 mt-2">Triangle Properties: Inequality, Midsegment, and Hinge Theorems</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Geometry Homework: Quadrilaterals</h1>
+            <p class="text-slate-600 mt-2">Proving Properties of Parallelograms and Rhombuses</p>
         </header>
 
+        <!-- Student Name Input -->
+        <div class="mb-6 bg-white p-4 rounded-2xl shadow-lg">
+            <label for="student-name" class="block text-sm font-bold text-slate-700 mb-2">Enter your name:</label>
+            <input type="text" id="student-name" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="e.g., Euclid">
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            <!-- Left Column: Problem List -->
             <div class="md:col-span-1 bg-white p-6 rounded-2xl shadow-lg h-full max-h-[75vh] overflow-y-auto">
                 <h2 class="text-xl font-bold mb-4 border-b pb-2">Problem List</h2>
-                <div id="problem-list" class="space-y-4">
-                    <!-- Problems will be dynamically inserted here -->
-                </div>
+                <div id="problem-list" class="space-y-4"></div>
             </div>
 
-            <!-- Right Column: Interactive Solver -->
             <div class="md:col-span-2 bg-white p-6 rounded-2xl shadow-lg">
                 <div id="solver-view">
-                    <!-- Initial placeholder view -->
                     <div id="placeholder" class="text-center flex flex-col items-center justify-center h-full min-h-[50vh]">
-                        <svg class="w-16 h-16 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                        <h3 class="text-xl font-semibold text-slate-500">Select a problem to begin.</h3>
-                        <p class="text-slate-400">The interactive workspace will appear here.</p>
+                        <svg class="w-16 h-16 text-slate-300 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>
+                        <h3 class="text-xl font-semibold text-slate-500">First, enter your name and<br>select a problem from the left.</h3>
                     </div>
 
-                    <!-- Active problem view (hidden by default) -->
                     <div id="problem-solver" class="hidden flex flex-col h-full">
                         <div>
                             <h3 class="text-lg font-semibold text-slate-900 mb-2">Problem:</h3>
@@ -61,13 +67,11 @@
                         
                         <div class="mt-6 flex-grow">
                             <h3 class="text-lg font-semibold text-slate-900 mb-2">Your Answer:</h3>
-                            <textarea id="user-solution" class="w-full h-32 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 transition" placeholder="Write your justification here..."></textarea>
+                            <textarea id="user-solution" class="w-full h-32 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="Write your proof or justification here..."></textarea>
                         </div>
 
                         <div class="mt-6">
-                            <button id="show-solution-btn" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">
-                                Show Solution
-                            </button>
+                            <button id="submit-btn" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105 disabled:bg-slate-400 disabled:cursor-not-allowed">Submit Answer</button>
                         </div>
                         
                         <div id="solution-area" class="mt-6 hidden">
@@ -83,46 +87,89 @@
         </div>
     </div>
 
-    <script>
-        // --- DATA: Problems and Solutions (Structurally changed for solutions) ---
+    <script type="module">
+        // --- Firebase SDK Imports ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Configuration and Initialization ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCNvb8jpI5_PA1-9adO4mv3dC5slYDnHJc",
+            authDomain: "quizanswers-97c46.firebaseapp.com",
+            projectId: "quizanswers-97c46",
+            storageBucket: "quizanswers-97c46.firebasestorage.app",
+            messagingSenderId: "863631254863",
+            appId: "1:863631254863:web:bdfda596e367910616d13a"
+        };
+        
+        let db, auth;
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+        } catch (e) {
+            console.error("Firebase initialization failed:", e);
+            showModal('Database connection failed. Please contact the administrator.');
+        }
+
+        // --- Authentication ---
+        async function authenticateUser() {
+            try {
+                await signInAnonymously(auth);
+                console.log("User authenticated anonymously. UID:", auth.currentUser.uid);
+            } catch (error) {
+                console.error("Anonymous authentication failed:", error);
+            }
+        }
+
+        // --- Data ---
         const problems = [
-            // Part 1: Triangle Inequality Theorem
-            { id: 1, category: 'Triangle Inequality Theorem', text: 'Determine if a triangle can be formed with the given side lengths. Justify your answer.', formula: `8, 15, 17`, solution: { text: `Yes. According to the Triangle Inequality Theorem, the sum of the lengths of any two sides of a triangle must be greater than the length of the third side. Here, 8 + 15 = 23, which is greater than 17.`, formula: `` } },
-            { id: 2, category: 'Triangle Inequality Theorem', text: 'Determine if a triangle can be formed with the given side lengths. Justify your answer.', formula: `6, 7, 14`, solution: { text: `No. The sum of the two shorter sides, 6 + 7 = 13, is not greater than the longest side, 14. This violates the Triangle Inequality Theorem.`, formula: `` } },
-            { id: 3, category: 'Triangle Inequality Theorem', text: 'Two sides of a triangle have lengths 9 and 14. Find the range of possible lengths for the third side, x.', formula: ``, solution: { text: `Let the third side be x. By the Triangle Inequality Theorem, we have: 14 - 9 < x < 14 + 9. Therefore, the range is:`, formula: `5 < x < 23` } },
-
-            // Part 2: Midsegment Theorem
-            { id: 4, category: 'Midsegment Theorem', text: 'In the diagram, D and E are the midpoints of AB and AC, respectively. If DE = 9, what is the length of BC? Justify your answer.', diagram: `<svg viewBox="0 0 200 150" class="svg-diagram"><polygon points="100,10 10,140 190,140" fill="none" stroke="black" stroke-width="2"/><line x1="55" y1="75" x2="145" y2="75" stroke="blue" stroke-width="2"/><text x="100" y="150" font-size="12">C</text><text x="192" y="145" font-size="12">B</text><text x="0" y="145" font-size="12">A</text><text x="45" y="73" font-size="12">D</text><text x="150" y="73" font-size="12">E</text><text x="95" y="80" font-size="12">9</text></svg>`, formula: ``, solution: { text: `By the Midsegment Theorem, the segment connecting the midpoints of two sides of a triangle is parallel to the third side and is half the length of the third side. Therefore:`, formula: `BC = 2 \\times DE = 2 \\times 9 = 18` } },
-            { id: 5, category: 'Midsegment Theorem', text: 'In the diagram, MN is a midsegment of ΔJKL. Find the value of x.', diagram: `<svg viewBox="0 0 200 150" class="svg-diagram"><polygon points="100,10 10,140 190,140" fill="none" stroke="black" stroke-width="2"/><line x1="55" y1="75" x2="145" y2="75" stroke="blue" stroke-width="2"/><text x="95" y="150" font-size="12">L</text><text x="192" y="145" font-size="12">K</text><text x="0" y="145" font-size="12">J</text><text x="45" y="73" font-size="12">M</text><text x="150" y="73" font-size="12">N</text><text x="85" y="80" font-size="10">2x - 3</text><text x="80" y="135" font-size="10">3x + 2</text></svg>`, formula: ``, solution: { text: `By the Midsegment Theorem, 2 * MN = KL. So, we can set up the equation:`, formula: `2(2x - 3) = 3x + 2 \\\\ 4x - 6 = 3x + 2 \\\\ x = 8` } },
-
-            // Part 3: Hinge Theorem & Converse
-            { id: 6, category: 'Hinge Theorem', text: 'Compare the lengths of BC and EF. Justify your answer using the appropriate theorem.', diagram: `<svg viewBox="0 0 250 120" class="svg-diagram"><polygon points="50,10 10,110 90,110" fill="none" stroke="black" stroke-width="2"/><text x="45" y="120">A</text><text x="0" y="115">B</text><text x="92" y="115">C</text><text x="25" y="60">10</text><text x="70" y="60">12</text><text x="45" y="30">70°</text><polygon points="180,10 140,110 220,110" fill="none" stroke="black" stroke-width="2"/><text x="175" y="120">D</text><text x="130" y="115">E</text><text x="222" y="115">F</text><text x="155" y="60">10</text><text x="200" y="60">12</text><text x="175" y="30">75°</text></svg>`, formula: ``, solution: { text: `By the Hinge Theorem, if two sides of one triangle are congruent to two sides of another, and the included angle of the second is larger, then the third side of the second is longer. Since 75° > 70°, we can conclude:`, formula: `EF > BC` } },
-            { id: 7, category: 'Converse of the Hinge Theorem', text: 'Compare the measures of ∠A and ∠D. Justify your answer.', diagram: `<svg viewBox="0 0 250 120" class="svg-diagram"><polygon points="50,10 10,110 90,110" fill="none" stroke="black" stroke-width="2"/><text x="45" y="30">∠A</text><text x="0" y="115">B</text><text x="92" y="115">C</text><text x="25" y="60">8</text><text x="70" y="60">8</text><text x="45" y="100">10</text><polygon points="180,10 140,110 220,110" fill="none" stroke="black" stroke-width="2"/><text x="175" y="30">∠D</text><text x="130" y="115">E</text><text x="222" y="115">F</text><text x="155" y="60">8</text><text x="200" y="60">8</text><text x="175" y="100">9</text></svg>`, formula: ``, solution: { text: `By the Converse of the Hinge Theorem, if two sides of one triangle are congruent to two sides of another, and the third side of the first is longer, then the included angle of the first is larger. Since 10 > 9, we can conclude:`, formula: `m∠A > m∠D` } },
-            { id: 8, category: 'Hinge Theorem Application', text: 'Find the range of possible values for x.', diagram: `<svg viewBox="0 0 150 150" class="svg-diagram"><polygon points="75,10 10,130 140,130" fill="none" stroke="black" stroke-width="2"/><line x1="75" y1="10" x2="100" y2="130" stroke="black" stroke-width="1.5" stroke-dasharray="4"/><text x="70" y="8">A</text><text x="0" y="135">B</text><text x="142" y="135">C</text><text x="98" y="142">D</text><text x="35" y="70">10</text><text x="115" y="70">10</text><text x="50" y="138">x - 2</text><text x="115" y="138">12</text><text x="50" y="30">50°</text><text x="90" y="30">65°</text></svg>`, formula: ``, solution: { text: `By the Hinge Theorem, since 65° > 50°, we know 12 > x - 2. Also, a side length must be positive, so x - 2 > 0. Combining these gives the range:`, formula: `2 < x < 14` } }
+            { id: 1, category: 'Parallelograms', text: 'In parallelogram ABCD, the measure of angle A is (3x + 10)° and the measure of angle C is (5x - 30)°. Find the measure of angle B and justify your reasoning.', formula: ``, solution: { text: `By the Parallelogram Opposite Angles Theorem, ∠A ≅ ∠C. So, 3x + 10 = 5x - 30, which gives x = 20. This makes m∠A = 3(20) + 10 = 70°. By the Parallelogram Consecutive Angles Theorem, ∠A and ∠B are supplementary. So, m∠B = 180° - 70°.`, formula: `m∠B = 110°` } },
+            { id: 2, category: 'Parallelograms', text: 'In parallelogram PQRS, the diagonals intersect at point T. If PT = 2y - 1 and TR = y + 4, find the length of the full diagonal PR. State the theorem you used.', formula: ``, solution: { text: `By the Parallelogram Diagonals Theorem, the diagonals bisect each other, so PT = TR. Therefore, 2y - 1 = y + 4, which gives y = 5. The length of PT is 2(5) - 1 = 9. The full length of PR is 2 * PT.`, formula: `PR = 2 \\times 9 = 18` } },
+            { id: 3, category: 'Parallelograms', text: 'Given a quadrilateral with vertices J(-2, 5), K(2, 6), L(7, 2), and M(3, 1). Prove that JKLM is a parallelogram by showing that both pairs of opposite sides are parallel.', formula: ``, solution: { text: `To prove sides are parallel, we show their slopes are equal. Slope JK = (6-5)/(2-(-2)) = 1/4. Slope ML = (2-1)/(7-3) = 1/4. So JK || ML. Slope KL = (2-6)/(7-2) = -4/5. Slope JM = (1-5)/(3-(-2)) = -4/5. So KL || JM. Since both pairs of opposite sides are parallel, JKLM is a parallelogram.`, formula: `` } },
+            { id: 4, category: 'Parallelograms', text: 'Write a proof. Given: Quadrilateral ABCD with AB ≅ DC and AB || DC. Prove: ABCD is a parallelogram.', formula: ``, solution: { text: `1. Draw diagonal AC. Since AB || DC, ∠BAC ≅ ∠DCA (Alternate Interior Angles). 2. We are given AB ≅ DC. 3. AC ≅ AC (Reflexive Property). 4. Therefore, ΔABC ≅ ΔCDA by SAS. 5. By CPCTC, ∠BCA ≅ ∠DAC. 6. Since these are alternate interior angles, BC || AD. 7. Since both pairs of opposite sides are parallel, ABCD is a parallelogram.`, formula: `` } },
+            { id: 5, category: 'Rhombuses', text: 'In rhombus EFGH, the diagonals intersect at K. If m∠FEK = 40°, what is the measure of ∠EHG? Justify each step of your reasoning.', formula: ``, solution: { text: `By the Rhombus Diagonals Theorem, the diagonals bisect the angles. So, m∠FEH = 2 * m∠FEK = 2 * 40° = 80°. By the Parallelogram Opposite Angles Theorem (which applies to rhombuses), opposite angles are congruent. Therefore, m∠EHG = m∠FEH.`, formula: `m∠EHG = 80°` } },
+            { id: 6, category: 'Rhombuses', text: 'The diagonals of rhombus WXYZ have lengths WY = 10 and XZ = 24. Find the perimeter of the rhombus.', formula: ``, solution: { text: `The diagonals of a rhombus are perpendicular bisectors of each other. They form four congruent right triangles. The legs of each triangle are half the length of the diagonals, so 5 and 12. By the Pythagorean theorem, the hypotenuse (which is a side of the rhombus) is sqrt(5² + 12²) = sqrt(25 + 144) = sqrt(169) = 13. Since all four sides of a rhombus are congruent, the perimeter is 4 * 13.`, formula: `Perimeter = 52` } },
+            { id: 7, category: 'Rhombuses', text: 'In rhombus QRST, m∠RST = 60°. Find the length of diagonal RT if the side length QR is 8.', formula: ``, solution: { text: `Since all sides are 8, ΔRST is an isosceles triangle with RS = ST = 8. Because m∠RST = 60°, ΔRST is actually an equilateral triangle. Therefore, the length of the third side, diagonal RT, must also be 8.`, formula: `RT = 8` } },
+            { id: 8, category: 'Proving Quadrilaterals', text: 'Prove that if the diagonals of a parallelogram are perpendicular, then the parallelogram is a rhombus.', formula: ``, solution: { text: `Let ABCD be a parallelogram with diagonals AC ⊥ BD at point E. By the Parallelogram Diagonals Theorem, the diagonals bisect each other, so AE ≅ CE and BE ≅ DE. Since AC ⊥ BD, all four angles at E are right angles. Consider ΔAEB and ΔCEB. We have AE ≅ CE, ∠AEB ≅ ∠CEB (both 90°), and BE ≅ BE (Reflexive Property). By SAS, ΔAEB ≅ ΔCEB. By CPCTC, AB ≅ CB. Since a parallelogram with adjacent sides congruent is a rhombus, ABCD is a rhombus.`, formula: `` } },
+            { id: 9, category: 'Proving Quadrilaterals', text: 'Is it possible for a quadrilateral to be both a parallelogram and a rhombus? Explain your reasoning.', formula: ``, solution: { text: `Yes. A rhombus is a special type of parallelogram. By definition, a rhombus is a parallelogram with four congruent sides. Therefore, every rhombus automatically has all the properties of a parallelogram (opposite sides parallel, opposite angles congruent, etc.).`, formula: `` } }
         ];
 
-        // --- DOM Element References ---
+        // --- DOM Elements ---
         const problemListContainer = document.getElementById('problem-list');
-        const placeholderView = document.getElementById('placeholder');
         const solverView = document.getElementById('problem-solver');
         const problemTextEl = document.getElementById('problem-text');
         const problemDiagramEl = document.getElementById('problem-diagram');
         const problemFormulaEl = document.getElementById('problem-formula');
         const userSolutionEl = document.getElementById('user-solution');
-        const showSolutionBtn = document.getElementById('show-solution-btn');
+        const submitBtn = document.getElementById('submit-btn');
         const solutionAreaEl = document.getElementById('solution-area');
         const solutionTextEl = document.getElementById('solution-text');
         const solutionFormulaEl = document.getElementById('solution-formula');
+        const studentNameInput = document.getElementById('student-name');
+        const modalBackdrop = document.getElementById('modal-backdrop');
+        const modalContent = document.getElementById('modal-content');
+        const modalMessage = document.getElementById('modal-message');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
 
         let currentProblemId = null;
 
         // --- Functions ---
-        function populateProblemList() {
-            const groupedProblems = problems.reduce((acc, p) => {
-                (acc[p.category] = acc[p.category] || []).push(p);
-                return acc;
-            }, {});
+        function showModal(message) {
+            modalMessage.textContent = message;
+            modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95');
+        }
 
+        function hideModal() {
+            modalBackdrop.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.add('scale-95');
+        }
+        modalCloseBtn.addEventListener('click', hideModal);
+
+        function populateProblemList() {
+            const groupedProblems = problems.reduce((acc, p) => ({...acc, [p.category]: [...(acc[p.category] || []), p]}), {});
             let html = '';
             for (const category in groupedProblems) {
                 html += `<h3 class="font-semibold text-slate-700 mt-4 first:mt-0">${category}</h3><div class="space-y-2">`;
@@ -139,29 +186,25 @@
             if (!problem) return;
             currentProblemId = problemId;
 
-            placeholderView.classList.add('hidden');
+            document.getElementById('placeholder').classList.add('hidden');
             solverView.classList.remove('hidden');
             solverView.classList.add('flex');
             
             problemTextEl.textContent = problem.text;
-            
             problemDiagramEl.innerHTML = problem.diagram || '';
             problemDiagramEl.classList.toggle('hidden', !problem.diagram);
-
             problemFormulaEl.innerHTML = '';
-            if (problem.formula) {
-                katex.render(problem.formula, problemFormulaEl, { throwOnError: false, displayMode: true });
-            }
-
-            // Render separated solution text and formula
+            if (problem.formula) katex.render(problem.formula, problemFormulaEl, { throwOnError: false, displayMode: true });
+            
             solutionTextEl.textContent = problem.solution.text;
             solutionFormulaEl.innerHTML = '';
-            if (problem.solution.formula) {
-                katex.render(problem.solution.formula, solutionFormulaEl, { throwOnError: false, displayMode: true });
-            }
+            if (problem.solution.formula) katex.render(problem.solution.formula, solutionFormulaEl, { throwOnError: false, displayMode: true });
 
             userSolutionEl.value = '';
+            userSolutionEl.disabled = false;
             solutionAreaEl.classList.add('hidden');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Answer';
 
             document.querySelectorAll('.problem-item').forEach(item => {
                 item.classList.toggle('bg-indigo-100', parseInt(item.dataset.id) === problemId);
@@ -170,23 +213,65 @@
             });
         }
 
+        async function handleSubmit() {
+            const studentName = studentNameInput.value.trim();
+            if (!studentName) {
+                showModal('Please enter your name first.');
+                return;
+            }
+            if (!currentProblemId) {
+                showModal('Please select a problem to submit.');
+                return;
+            }
+            if (!auth.currentUser) {
+                showModal('Authentication failed. Please try again in a moment.');
+                return;
+            }
+
+            const submission = {
+                studentName: studentName,
+                studentId: auth.currentUser.uid,
+                problemId: currentProblemId,
+                problemText: problems.find(p=>p.id === currentProblemId).text,
+                answer: userSolutionEl.value,
+                submittedAt: serverTimestamp()
+            };
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                const collectionPath = `submissions/geometry-quadrilaterals-hw/${studentName}`;
+                const docRef = await addDoc(collection(db, collectionPath), submission);
+                showModal(`'${studentName}', your answer has been submitted successfully!`);
+                
+                userSolutionEl.disabled = true;
+                submitBtn.textContent = 'Submitted';
+                solutionAreaEl.classList.remove('hidden');
+
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                showModal('An error occurred during submission. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Answer';
+            }
+        }
+
         // --- Event Listeners ---
         problemListContainer.addEventListener('click', (e) => {
-            const target = e.target.closest('.problem-item');
-            if (target) {
-                displayProblem(parseInt(target.dataset.id));
+            if (e.target.closest('.problem-item')) {
+                displayProblem(parseInt(e.target.closest('.problem-item').dataset.id));
             }
         });
 
-        showSolutionBtn.addEventListener('click', () => {
-            if (currentProblemId !== null) {
-                solutionAreaEl.classList.remove('hidden');
-            }
-        });
+        submitBtn.addEventListener('click', handleSubmit);
 
         // --- Initial Load ---
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             populateProblemList();
+            if (db) {
+                await authenticateUser();
+            }
         });
     </script>
 </body>
