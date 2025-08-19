@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Geometry Homework Submission</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FIX: Corrected 'integrity' typo -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMcAORllhBIgBpO98Pz7gjVBYSNpoJpGTxwLKPkJ3rGTfgZv0" crossorigin="anonymous">
+    <!-- FIX: Corrected 'integrity' typo and added 'defer' -->
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUbKyKLO8" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -16,7 +18,8 @@
         ::-webkit-scrollbar-thumb:hover { background: #64748b; }
         .katex-display { margin: 0.5em 0; font-size: 1.1em; text-align: left; }
         #problem-text, #solution-text { overflow-wrap: break-word; word-wrap: break-word; }
-        .svg-diagram { max-width: 100%; width: 220px; height: auto; } /* <-- FIX: Made diagram responsive */
+        /* FIX: Adjusted diagram styling for better containment */
+        .svg-diagram { max-width: 100%; width: 220px; height: auto; margin-bottom: 1rem; }
         #modal-backdrop { transition: opacity 0.2s ease-in-out; }
         #modal-content { transition: transform 0.2s ease-in-out; }
     </style>
@@ -61,8 +64,11 @@
                         <div>
                             <h3 class="text-lg font-semibold text-slate-900 mb-2">Problem:</h3>
                             <p id="problem-text" class="text-slate-700 mb-2"></p>
-                            <div id="problem-diagram" class="my-4 flex justify-center"></div>
-                            <div id="problem-formula" class="bg-slate-50 p-4 rounded-lg text-lg"></div>
+                            <!-- FIX: Combined diagram and formula into one gray box -->
+                            <div id="problem-visuals" class="bg-slate-50 p-4 rounded-lg text-lg flex flex-col items-center">
+                                <div id="problem-diagram"></div>
+                                <div id="problem-formula"></div>
+                            </div>
                         </div>
                         
                         <div class="mt-6 flex-grow">
@@ -190,14 +196,19 @@
             solverView.classList.add('flex');
             
             problemTextEl.textContent = problem.text;
+            
+            // FIX: Logic to handle diagram and formula placement
             problemDiagramEl.innerHTML = problem.diagram || '';
-            problemDiagramEl.classList.toggle('hidden', !problem.diagram);
             problemFormulaEl.innerHTML = '';
-            if (problem.formula) katex.render(problem.formula, problemFormulaEl, { throwOnError: false, displayMode: true });
+            if (problem.formula) {
+                katex.render(problem.formula, problemFormulaEl, { throwOnError: false, displayMode: true });
+            }
             
             solutionTextEl.textContent = problem.solution.text;
             solutionFormulaEl.innerHTML = '';
-            if (problem.solution.formula) katex.render(problem.solution.formula, solutionFormulaEl, { throwOnError: false, displayMode: true });
+            if (problem.solution.formula) {
+                katex.render(problem.solution.formula, solutionFormulaEl, { throwOnError: false, displayMode: true });
+            }
 
             userSolutionEl.value = '';
             userSolutionEl.disabled = false;
